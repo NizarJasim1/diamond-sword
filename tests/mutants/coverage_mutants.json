@@ -1,0 +1,86 @@
+[
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "return PH_UUID",
+   "replace": "return PH_NUM",
+   "note": "uuid misclassified as num (two id schemes merged)"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "return PH_DATE",
+   "replace": "return None",
+   "note": "dates no longer collapsed"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "return PH_NUM",
+   "replace": "return None",
+   "note": "numeric ids not collapsed (instances never dedup -> giant never shrinks)"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "len(low) >= _HEX_MIN_LEN",
+   "replace": "len(low) >= 6",
+   "note": "hex length guard too loose (short hex-ish words become {hex})"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "_has_ascii_digit(low)",
+   "replace": "True",
+   "note": "hex digit guard dropped (all-letter hex words like deadbeefcafe become {hex})"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "len(seg) >= _TOKEN_MIN_LEN",
+   "replace": "len(seg) >= 4",
+   "note": "token length guard too loose (short mixed segments become {token})"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "_has_ascii_alpha(seg) and _has_ascii_digit(seg)",
+   "replace": "_has_ascii_alpha(seg) or _has_ascii_digit(seg)",
+   "note": "token guard weakened to OR (long all-letter route words become {token})"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "if depth > self.config.max_depth:",
+   "replace": "if depth < self.config.max_depth:",
+   "note": "depth gate inverted (deep nesting traps pass, shallow pages rejected)"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "if len(seen) >= self.config.max_instances_per_template:",
+   "replace": "if len(seen) > self.config.max_instances_per_template:",
+   "note": "instance cap off by one (trap detected one instance late)"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "if v not in vals and len(vals) >= self.config.max_values_per_pagination_key:",
+   "replace": "if v not in vals and len(vals) > self.config.max_values_per_pagination_key:",
+   "note": "pagination cap off by one"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "if instance_id in seen:",
+   "replace": "if instance_id not in seen:",
+   "note": "duplicate detection inverted (new instances dropped, dups re-crawled)"},
+
+  {"file": "diamond_sword/coverage/template_engine.py",
+   "find": "if k.lower() in PAGINATION_KEYS:",
+   "replace": "if k.lower() not in PAGINATION_KEYS:",
+   "note": "pagination-key test inverted (real paging never capped)"},
+
+  {"file": "diamond_sword/coverage/fingerprint.py",
+   "find": "if tag in _TYPE_TAGS and \"type\" in d:",
+   "replace": "if tag in _TYPE_TAGS and \"type\" not in d:",
+   "note": "input type dropped from skeleton (login vs search form over-merge)"},
+
+  {"file": "diamond_sword/coverage/fingerprint.py",
+   "find": "d[\"role\"].strip().lower()",
+   "replace": "d[\"role\"].strip().upper()",
+   "note": "role normalization case bug (fingerprint no longer stable/pinned)"},
+
+  {"file": "diamond_sword/coverage/fingerprint.py",
+   "find": "if tag in _NOISE:",
+   "replace": "if tag not in _NOISE:",
+   "note": "noise-subtree test inverted (structure skipped, head/script kept)"},
+
+  {"file": "diamond_sword/coverage/fingerprint.py",
+   "find": "self._depth += 1",
+   "replace": "self._depth += 2",
+   "note": "depth accounting wrong (skeleton depths corrupted)"},
+
+  {"file": "diamond_sword/coverage/fingerprint.py",
+   "find": "if len(self.tokens) >= self.max_tokens:",
+   "replace": "if len(self.tokens) > self.max_tokens:",
+   "note": "token bound off by one (skeleton can exceed max_tokens)"}
+]

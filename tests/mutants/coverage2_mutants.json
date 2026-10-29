@@ -1,0 +1,18 @@
+[
+  {"file":"diamond_sword/coverage/triage.py","find":"if seg in _PLACEHOLDERS:","replace":"if seg not in _PLACEHOLDERS:","note":"id segments no longer scored"},
+  {"file":"diamond_sword/coverage/triage.py","find":"score += 5; cats.add(\"money\"); reasons.append(f\"money:{t}\")","replace":"score += 0; cats.add(\"money\"); reasons.append(f\"money:{t}\")","note":"money weight dropped to 0"},
+  {"file":"diamond_sword/coverage/triage.py","find":"score += 5; cats.add(\"admin\"); reasons.append(f\"admin:{t}\")","replace":"score += 0; cats.add(\"admin\"); reasons.append(f\"admin:{t}\")","note":"admin weight dropped to 0"},
+  {"file":"diamond_sword/coverage/triage.py","find":"return TriageResult(0, (\"static\",), (\"static asset\",))","replace":"return TriageResult(9, (\"static\",), (\"static asset\",))","note":"static assets no longer deprioritized"},
+  {"file":"diamond_sword/coverage/triage.py","find":"score += _STATE_METHOD[method]","replace":"score += 0","note":"state-change verbs not weighted"},
+  {"file":"diamond_sword/coverage/map_first.py","find":"elif key == \"sitemap\":","replace":"elif key == \"sitemapX\":","note":"Sitemap directive never captured"},
+  {"file":"diamond_sword/coverage/map_first.py","find":"if re.search(r\"<\\s*sitemapindex\", xml_text or \"\", re.IGNORECASE):","replace":"if re.search(r\"<\\s*NEVERMATCH\", xml_text or \"\", re.IGNORECASE):","note":"sitemap index misread as a page urlset"},
+  {"file":"diamond_sword/coverage/map_first.py","find":"if isinstance(method, str) and method.lower() in _HTTP_METHODS:","replace":"if isinstance(method, str) and method.lower() not in _HTTP_METHODS:","note":"openapi method filter inverted"},
+  {"file":"diamond_sword/coverage/map_first.py","find":"if typ.get(\"name\") == q_name:","replace":"if typ.get(\"name\") != q_name:","note":"graphql query/mutation fields swapped"},
+  {"file":"diamond_sword/coverage/map_first.py","find":"out.add(m.group(1))","replace":"out.add(m.group(0))","note":"mined JS paths keep surrounding quotes"},
+  {"file":"diamond_sword/coverage/crawler.py","find":"if u in queued or not self.in_scope(u):","replace":"if u in queued or self.in_scope(u):","note":"scope pre-filter inverted (out-of-scope enqueued)"},
+  {"file":"diamond_sword/coverage/crawler.py","find":"if not self.in_scope(url):   # re-check at pop (fail-closed)","replace":"if self.in_scope(url):   # re-check at pop (fail-closed)","note":"scope re-check inverted"},
+  {"file":"diamond_sword/coverage/crawler.py","find":"if not obs.enqueue:          # duplicate / trap / depth / bad-url -> skip fetch","replace":"if obs.enqueue:          # duplicate / trap / depth / bad-url -> skip fetch","note":"enqueue gate inverted (nothing crawled / dups crawled)"},
+  {"file":"diamond_sword/coverage/crawler.py","find":"if fp in visited_fps:        # same structure seen -> don't re-expand its links","replace":"if fp not in visited_fps:        # same structure seen -> don't re-expand its links","note":"structural dedup inverted"},
+  {"file":"diamond_sword/coverage/principal_manager.py","find":"common &= s","replace":"common |= s","note":"common templates uses union instead of intersection"},
+  {"file":"diamond_sword/coverage/principal_manager.py","find":"for s in sets[1:]:","replace":"for s in sets[2:]:","note":"intersection skips the second principal"}
+]

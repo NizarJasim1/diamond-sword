@@ -1,0 +1,80 @@
+[
+  {
+    "file": "diamond_sword/capture/har_model.py",
+    "find": "path = remove_dot_segments(p.path or \"/\")",
+    "replace": "path = p.path or \"/\"",
+    "note": "dot-segments not normalized (dedup/stable-url bypass)"
+  },
+  {
+    "file": "diamond_sword/capture/har_model.py",
+    "find": "\"method\": self.method.upper()",
+    "replace": "\"method\": self.method.lower()",
+    "note": "HAR method case wrong"
+  },
+  {
+    "file": "diamond_sword/capture/har_model.py",
+    "find": "\"_principal\": self.principal",
+    "replace": "\"_principal\": \"A\"",
+    "note": "principal tag hard-coded (\u0394state loses identity)"
+  },
+  {
+    "file": "diamond_sword/capture/session.py",
+    "find": "if status in (401, 403):",
+    "replace": "if status in (200, 204):",
+    "note": "session-expiry status codes wrong"
+  },
+  {
+    "file": "diamond_sword/capture/session.py",
+    "find": "return any(m in u for m in _LOGIN_MARKERS)",
+    "replace": "return all(m in u for m in _LOGIN_MARKERS)",
+    "note": "login-redirect detection broken"
+  },
+  {
+    "file": "diamond_sword/capture/session.py",
+    "find": "ok = not is_session_expired(status, final_url)",
+    "replace": "ok = is_session_expired(status, final_url)",
+    "note": "authenticated flag inverted"
+  },
+  {
+    "file": "diamond_sword/capture/session.py",
+    "find": "return st is None or not st.authenticated",
+    "replace": "return st is None and not st.authenticated",
+    "note": "need_human wrong for expired session"
+  },
+  {
+    "file": "diamond_sword/capture/backend_playwright.py",
+    "find": "resp_body=getattr(response, \"text\", None)",
+    "replace": "resp_body=None",
+    "note": "playwright response body dropped"
+  },
+  {
+    "file": "diamond_sword/capture/backend_mitmproxy.py",
+    "find": "int(getattr(resp, \"status_code\", 0)) if resp is not None else 0",
+    "replace": "int(getattr(resp, \"status\", 0)) if resp is not None else 0",
+    "note": "mitmproxy status read from wrong attribute"
+  },
+  {
+    "file": "diamond_sword/models/verify.py",
+    "find": "if any(k not in obj for k in required_keys):",
+    "replace": "if all(k not in obj for k in required_keys):",
+    "note": "required-key check weakened"
+  },
+  {
+    "file": "diamond_sword/models/verify.py",
+    "find": "if not isinstance(obj, dict):",
+    "replace": "if isinstance(obj, dict):",
+    "note": "object-type check inverted"
+  },
+  {
+    "file": "diamond_sword/models/pool.py",
+    "find": "if out is None:",
+    "replace": "if out is not None:",
+    "note": "pool skips valid output"
+  },
+  {
+    "file": "diamond_sword/models/pool.py",
+    "find": "if verify_fn is not None and not verify_fn(out):",
+    "replace": "if verify_fn is not None and verify_fn(out):",
+    "note": "verify gate inverted (bad output accepted)"
+  }
+]

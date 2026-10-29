@@ -1,0 +1,20 @@
+{
+  "program": "devhub",
+  "platform": "hackerone",
+  "scope": {
+    "in": [
+      "*.devhub.example",
+      "devhub.example",
+      {"type": "api", "host": "devhub.example", "path": "/api"},
+      {"type": "api", "host": "devhub.example", "path": "/-/graphql"}
+    ],
+    "out": ["about.devhub.example", "docs.devhub.example", "forum.devhub.example"],
+    "out_classes": [
+      "username enumeration without demonstrable impact",
+      "rate limiting or brute force without impact",
+      "self-XSS",
+      "clickjacking on static pages"
+    ]
+  },
+  "roe": {"read_only": true, "automation_permitted": true, "max_rps": 1.0}
+}

@@ -1,0 +1,30 @@
+{
+  "program": "acmepay",
+  "platform": "hackerone",
+  "scope": {
+    "in": [
+      "*.acmepay.example",
+      "acmepay.example",
+      "api.acmepay.example",
+      "app.acmepay.example",
+      "buy.acmepay.example",
+      "sell.acmepay.example",
+      "web3.acmepay.example",
+      "auth.acmepay.example",
+      "*.acmemint.example"
+    ],
+    "out": [
+      "docs.acmepay.example",
+      "help.acmepay.example",
+      "dev.acmepay.example",
+      "qr.acmepay.example",
+      "page.acmepay.example"
+    ],
+    "out_classes": [
+      "disclosure of public pk_ keys",
+      "username or email enumeration without impact",
+      "rate limiting without impact"
+    ]
+  },
+  "roe": {"read_only": true, "automation_permitted": true, "max_rps": 0.5}
+}

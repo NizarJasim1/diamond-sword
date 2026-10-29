@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "target": "crapi-local",
+  "rules": [],
+  "id_patterns": {},
+  "interaction": {
+    "seeds": [
+      "http://localhost:8888/dashboard",
+      "http://localhost:8888/shop",
+      "http://localhost:8888/vehicles"
+    ],
+    "priority": ["order", "vehicle", "profile", "mechanic", "coupon", "balance", "admin"],
+    "avoid": ["logout", "sign out", "delete account", "change password"],
+    "flows": [
+      {
+        "id": "login-victim-A",
+        "steps": [
+          {"action": "navigate", "value": "http://localhost:8888/login"},
+          {"action": "fill", "test_id": "email", "value": "victim.a@example.test"},
+          {"action": "fill", "test_id": "password", "value": "Ds-Probe-123!"},
+          {"action": "click", "text": "Log in", "expect_url": "/dashboard"}
+        ]
+      },
+      {
+        "id": "open-an-order",
+        "steps": [
+          {"action": "click", "text": "My Orders", "expect_url": "/orders"},
+          {"action": "click", "role": "link", "text": "View", "expect_text": "Order details"}
+        ]
+      }
+    ]
+  }
+}

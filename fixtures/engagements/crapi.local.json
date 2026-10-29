@@ -1,0 +1,13 @@
+{
+  "program": "crapi-local",
+  "platform": "local",
+  "scope": {
+    "in": [
+      {"type": "web", "host": "localhost"},
+      {"type": "web", "host": "127.0.0.1"}
+    ],
+    "out": [],
+    "out_classes": []
+  },
+  "roe": {"read_only": true, "max_rps": 2}
+}

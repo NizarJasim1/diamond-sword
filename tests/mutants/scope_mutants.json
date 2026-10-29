@@ -1,0 +1,46 @@
+[
+  {"file": "diamond_sword/legal/scope_parser.py",
+   "find": "host.endswith(\".\" + base)",
+   "replace": "host.endswith(base)",
+   "note": "wildcard suffix-spoof: a.acmepay.example.evil.com would match *.acmepay.example"},
+
+  {"file": "diamond_sword/legal/scope_parser.py",
+   "find": "return host != base and host.endswith",
+   "replace": "return host == base and host.endswith",
+   "note": "wildcard matches apex only (inverts strict-subdomain guard)"},
+
+  {"file": "diamond_sword/legal/scope_parser.py",
+   "find": "return host == pattern",
+   "replace": "return pattern in host",
+   "note": "exact match becomes substring: notacmepay.example matches acmepay.example"},
+
+  {"file": "diamond_sword/legal/scope_guard.py",
+   "find": "if scheme not in self._ALLOWED_SCHEMES:",
+   "replace": "if scheme in self._ALLOWED_SCHEMES:",
+   "note": "scheme gate inverted (http/https rejected, others pass)"},
+
+  {"file": "diamond_sword/legal/scope_guard.py",
+   "find": "return Decision(False, Reason.DENY_OUT_OF_SCOPE, url, host=host, matched=hit.raw)",
+   "replace": "return Decision(True, Reason.DENY_OUT_OF_SCOPE, url, host=host, matched=hit.raw)",
+   "note": "out-of-scope host would be allowed"},
+
+  {"file": "diamond_sword/legal/scope_guard.py",
+   "find": "return Decision(False, Reason.DENY_NOT_IN_SCOPE, url, host=host)",
+   "replace": "return Decision(True, Reason.DENY_NOT_IN_SCOPE, url, host=host)",
+   "note": "fail-open: unknown host would be allowed"},
+
+  {"file": "diamond_sword/legal/scope_guard.py",
+   "find": "return Decision(True, Reason.ALLOW_IN_SCOPE, url, host=host, matched=hit.raw)",
+   "replace": "return Decision(False, Reason.ALLOW_IN_SCOPE, url, host=host, matched=hit.raw)",
+   "note": "in-scope host would be denied (capability loss)"},
+
+  {"file": "diamond_sword/legal/scope_guard.py",
+   "find": "if a.port is not None and a.port != port:",
+   "replace": "if a.port is not None and a.port == port:",
+   "note": "port constraint inverted"},
+
+  {"file": "diamond_sword/legal/scope_guard.py",
+   "find": "if not path_matches(a.path, path):",
+   "replace": "if path_matches(a.path, path):",
+   "note": "path-prefix constraint inverted"}
+]

@@ -1,0 +1,18 @@
+[
+  {"file":"diamond_sword/heal/locator_cascade.py","find":"return matches[0].node_id if len(matches) == 1 else None","replace":"return matches[0].node_id if len(matches) >= 1 else None","note":"uniqueness dropped (ambiguous layer picks first)"},
+  {"file":"diamond_sword/heal/locator_cascade.py","find":"m = [e for e in els if e.role == t.role]","replace":"m = [e for e in els if e.role != t.role]","note":"role match inverted"},
+  {"file":"diamond_sword/heal/locator_cascade.py","find":"m = [e for e in els if e.text == t.text]","replace":"m = [e for e in els if e.text != t.text]","note":"text match inverted"},
+  {"file":"diamond_sword/heal/locator_cascade.py","find":"m = [e for e in scope if _match_fields(e, t)]","replace":"m = [e for e in els if _match_fields(e, t)]","note":"ancestor scoping ignored (ambiguity returns)"},
+  {"file":"diamond_sword/heal/invariant.py","find":"return len(set(hashes[-required:])) == 1","replace":"return len(set(hashes[-required:])) >= 1","note":"stability always true (never waits for settle)"},
+  {"file":"diamond_sword/heal/invariant.py","find":"if post.url_contains is not None and post.url_contains not in snap.url:","replace":"if post.url_contains is not None and post.url_contains in snap.url:","note":"url postcondition inverted"},
+  {"file":"diamond_sword/heal/invariant.py","find":"if post.element_appears is not None and not exists(snap, post.element_appears):","replace":"if post.element_appears is not None and exists(snap, post.element_appears):","note":"appears postcondition inverted"},
+  {"file":"diamond_sword/heal/recovery_fsm.py","find":"if sig.http_status == 429 or sig.waf:","replace":"if sig.http_status == 429 and sig.waf:","note":"rate-limit detection weakened to AND"},
+  {"file":"diamond_sword/heal/recovery_fsm.py","find":"sig.http_status in (401, 403)","replace":"sig.http_status in (499, 498)","note":"session-expired status codes wrong"},
+  {"file":"diamond_sword/heal/recovery_fsm.py","find":"if any(e.role in _MODAL_ROLES for e in snap.elements):","replace":"if any(e.role not in _MODAL_ROLES for e in snap.elements):","note":"modal detection inverted"},
+  {"file":"diamond_sword/heal/recovery_fsm.py","find":"and self._streak > self.max_retries:","replace":"and self._streak >= self.max_retries:","note":"escalation off by one"},
+  {"file":"diamond_sword/heal/recovery_fsm.py","find":"Symptom.SESSION_EXPIRED: Action.PAUSE_FOR_HUMAN,","replace":"Symptom.SESSION_EXPIRED: Action.PROCEED,","note":"session-expired no longer pauses for human"},
+  {"file":"diamond_sword/heal/pacer.py","find":"self._delay = max(self.floor, self._delay - self.additive)","replace":"self._delay = min(self.floor, self._delay - self.additive)","note":"success can push delay below the rate floor"},
+  {"file":"diamond_sword/heal/pacer.py","find":"self._delay = min(self.max_delay, self._delay * self.mult)","replace":"self._delay = min(self.max_delay, self._delay / self.mult)","note":"rate-limit decreases delay instead of backing off"},
+  {"file":"diamond_sword/heal/pacer.py","find":"self._delay = max(self._delay, retry_after)","replace":"self._delay = min(self._delay, retry_after)","note":"Retry-After not honored when larger"},
+  {"file":"diamond_sword/heal/pacer.py","find":"self.floor = 1.0 / max_rps","replace":"self.floor = 1.0 * max_rps","note":"rate floor miscomputed"}
+]

@@ -1,0 +1,15 @@
+[
+  {"file":"diamond_sword/oracle/answer_apply.py","find":"if url and scope_check is not None and not scope_check(url):","replace":"if url and scope_check is not None and scope_check(url):","note":"scope reject inverted (out-of-scope answers applied)"},
+  {"file":"diamond_sword/oracle/answer_apply.py","find":"if \"rule\" in ans:","replace":"if \"rule\" not in ans:","note":"rule/id_pattern branch inverted"},
+  {"file":"diamond_sword/oracle/playbook.py","find":"if any(r.id == rule.id for r in self.rules):","replace":"if any(r.id != rule.id for r in self.rules):","note":"rule dedup broken"},
+  {"file":"diamond_sword/oracle/question_bus.py","find":"if qid in self.ids():","replace":"if qid not in self.ids():","note":"question dedup inverted"},
+  {"file":"diamond_sword/coverage/object_factory.py","find":"if not self.scope_check(spec.url):","replace":"if self.scope_check(spec.url):","note":"object-factory scope gate inverted"},
+  {"file":"diamond_sword/coverage/object_factory.py","find":"if not grant.proceed:","replace":"if grant.proceed:","note":"consent gate inverted"},
+  {"file":"diamond_sword/coverage/object_factory.py","find":"if grant.dry_run:","replace":"if not grant.dry_run:","note":"dry-run gate inverted (creates during dry-run)"},
+  {"file":"diamond_sword/coverage/object_factory.py","find":"if cls == PH_NUM:","replace":"if cls != PH_NUM:","note":"sequential id detection inverted"},
+  {"file":"diamond_sword/coverage/object_factory.py","find":"if object_id.startswith(\"gid://\"):","replace":"if object_id.startswith(\"xid://\"):","note":"gid detection broken"},
+  {"file":"diamond_sword/pipeline/onyx_bridge.py","find":"if not isinstance(findings, list):","replace":"if isinstance(findings, list):","note":"onyx result validation inverted"},
+  {"file":"diamond_sword/pipeline/report.py","find":"(scope_prove(url) if (scope_prove and url) else None)","replace":"(scope_prove(url) if (scope_prove and not url) else None)","note":"scope proof dropped"},
+  {"file":"diamond_sword/pipeline/report.py","find":"f.get(\"repro\") or _repro(f)","replace":"f.get(\"repro\") and _repro(f)","note":"auto repro lost when none supplied"},
+  {"file":"diamond_sword/pipeline/conductor.py","find":"findings = self.onyx_bridge.scan(spec)","replace":"findings = []","note":"ONYX findings dropped"}
+]

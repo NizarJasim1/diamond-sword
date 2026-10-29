@@ -1,0 +1,56 @@
+[
+  {"file": "diamond_sword/legal/roe.py",
+   "find": "if not policy.automation_permitted:",
+   "replace": "if policy.automation_permitted:",
+   "note": "automation gate inverted (would run when forbidden)"},
+
+  {"file": "diamond_sword/legal/roe.py",
+   "find": "if not _is_mutating(action):",
+   "replace": "if _is_mutating(action):",
+   "note": "read/mutate split inverted"},
+
+  {"file": "diamond_sword/legal/roe.py",
+   "find": "if action.norm_method() == \"DELETE\":",
+   "replace": "if action.norm_method() == \"GET\":",
+   "note": "DELETE no longer treated as destructive"},
+
+  {"file": "diamond_sword/legal/roe.py",
+   "find": "if tokens & _DESTRUCTIVE_TOKENS:",
+   "replace": "if tokens & frozenset():",
+   "note": "destructive-token detection disabled (logout/password/withdraw slip through)"},
+
+  {"file": "diamond_sword/legal/roe.py",
+   "find": "if policy.read_only:",
+   "replace": "if not policy.read_only:",
+   "note": "read-only mode inverted (mutations allowed through)"},
+
+  {"file": "diamond_sword/legal/roe.py",
+   "find": "if policy.auto_allow_whitelisted:",
+   "replace": "if not policy.auto_allow_whitelisted:",
+   "note": "whitelist auto-allow inverted"},
+
+  {"file": "diamond_sword/legal/roe.py",
+   "find": "if action.norm_method() not in policy.allow_methods:",
+   "replace": "if action.norm_method() in policy.allow_methods:",
+   "note": "method allowlist inverted"},
+
+  {"file": "diamond_sword/legal/consent_gate.py",
+   "find": "return False",
+   "replace": "return True",
+   "note": "default approver fail-open (consent granted with no human)"},
+
+  {"file": "diamond_sword/legal/consent_gate.py",
+   "find": "return Grant(False, False, decision.reason, decision.mode, decision)",
+   "replace": "return Grant(True, False, decision.reason, decision.mode, decision)",
+   "note": "DENY verdict would proceed"},
+
+  {"file": "diamond_sword/legal/consent_gate.py",
+   "find": "if approved:",
+   "replace": "if not approved:",
+   "note": "consent outcome inverted"},
+
+  {"file": "diamond_sword/legal/consent_gate.py",
+   "find": "return Grant(True, decision.dry_run, decision.reason, decision.mode, decision)",
+   "replace": "return Grant(False, decision.dry_run, decision.reason, decision.mode, decision)",
+   "note": "ALLOW verdict would not proceed (capability loss)"}
+]

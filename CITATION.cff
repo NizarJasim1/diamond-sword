@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use Diamond Sword in research or a report, please cite it."
+title: "Diamond Sword: scope-guarded multi-account capture for authorization testing"
+type: software
+authors:
+  - given-names: Nizar Jasim Mohammed
+    family-names: Al-Zubaidi
+version: 1.3.0
+date-released: 2026-10-29
+license: PolyForm-Noncommercial-1.0.0
+repository-code: https://github.com/NizarJasim1/diamond-sword
+keywords:
+  - authorization
+  - crawler
+  - HAR
+  - API security
+  - security testing

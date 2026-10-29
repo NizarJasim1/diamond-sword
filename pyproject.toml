@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diamond-sword"
+version = "1.3.0"
+description = "Diamond Sword: scope-guarded, multi-account exploration and HAR capture for authorization testing"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "PolyForm-Noncommercial-1.0.0" }
+authors = [{ name = "Nizar Jasim Mohammed Al-Zubaidi" }]
+keywords = ["security", "authorization", "crawler", "har", "playwright", "bola", "idor", "bug-bounty"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/NizarJasim1/diamond-sword"
+Issues = "https://github.com/NizarJasim1/diamond-sword/issues"
+Changelog = "https://github.com/NizarJasim1/diamond-sword/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+live = ["playwright>=1.44"]
+proxy = ["mitmproxy>=10"]
+dev = ["ruff", "mypy"]
+
+[project.scripts]
+diamond-sword = "diamond_sword.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["diamond_sword*"]
+
+[tool.mypy]
+strict = true
+files = ["diamond_sword"]
+
+[[tool.mypy.overrides]]
+module = ["playwright.*", "mitmproxy.*"]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E9", "F", "B"]

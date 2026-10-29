@@ -1,0 +1,51 @@
+[
+  {"file": "diamond_sword/util/hashing.py",
+   "find": "sort_keys=True",
+   "replace": "sort_keys=False",
+   "note": "canonical JSON no longer order-independent (hash becomes unstable)"},
+
+  {"file": "diamond_sword/util/hashing.py",
+   "find": "return sha256_hex(prev + body)",
+   "replace": "return sha256_hex(body)",
+   "note": "chain hash drops prev (chain no longer tamper-evident)"},
+
+  {"file": "diamond_sword/util/jsonl.py",
+   "find": "if i == last_index:",
+   "replace": "if i != last_index:",
+   "note": "truncated-tail detection mislabels which line is incomplete"},
+
+  {"file": "diamond_sword/util/jsonl.py",
+   "find": "fh.write(line + \"\\n\")",
+   "replace": "fh.write(line)",
+   "note": "append omits newline (records merge and corrupt the log)"},
+
+  {"file": "diamond_sword/legal/audit_ledger.py",
+   "find": "if recomputed != stored_hash:",
+   "replace": "if recomputed == stored_hash:",
+   "note": "hash check inverted (tampering would pass)"},
+
+  {"file": "diamond_sword/legal/audit_ledger.py",
+   "find": "if stored_prev != prev:",
+   "replace": "if stored_prev == prev:",
+   "note": "link check inverted (broken chain would pass)"},
+
+  {"file": "diamond_sword/legal/audit_ledger.py",
+   "find": "self._prev = entry_hash",
+   "replace": "self._prev = self._prev",
+   "note": "prev not advanced (chain links break after entry 1)"},
+
+  {"file": "diamond_sword/legal/audit_ledger.py",
+   "find": "self._prev = str(last.get(\"hash\", GENESIS))",
+   "replace": "self._prev = GENESIS",
+   "note": "resume ignores last hash (chain breaks across restart)"},
+
+  {"file": "diamond_sword/heal/coverage_ledger.py",
+   "find": "return self.frontier_added - self.visited",
+   "replace": "return self.frontier_added",
+   "note": "pending frontier includes already-visited (re-crawl on resume)"},
+
+  {"file": "diamond_sword/heal/coverage_ledger.py",
+   "find": "state.visited.add(fp)",
+   "replace": "state.frontier_added.add(fp)",
+   "note": "visited fingerprints lost on replay"}
+]
